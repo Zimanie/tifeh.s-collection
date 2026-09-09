@@ -1,10 +1,16 @@
-function Product() {
-  return (
-    <div>
-      <h1>Product</h1>
-      <p>Product details</p>
-    </div>
-  )
-}
+import { Heart, Minus, Plus, ShieldCheck, Truck } from 'lucide-react'
+import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { PRODUCTS } from '../data/products'
+import { useShop } from '../context/ShopContext'
+import { Button } from '../components/Button'
+import ProductCard from '../components/ProductCard'
 
-export default Product
+export default function Product() {
+  const { id } = useParams()
+  const product = PRODUCTS.find((item) => item.id === id) ?? PRODUCTS[0]
+  const [size, setSize] = useState(product.sizes[0])
+  const [quantity, setQuantity] = useState(1)
+  const { addToCart, formatPrice, isWishlisted, toggleWishlist } = useShop()
+  return <main><div className="mx-auto grid max-w-[1440px] gap-8 px-5 py-10 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-16"><div className="grid grid-cols-2 gap-2"><img src={product.image} alt={product.name} className="col-span-2 aspect-[4/5] w-full object-cover" /><img src={product.secondaryImage} alt="" className="aspect-square w-full object-cover" /><img src={product.image} alt="" className="aspect-square w-full object-cover object-top" /></div><div className="pt-3 lg:pt-10"><Link to="/shop" className="text-[10px] uppercase tracking-[0.15em] text-[#706F6C]">{product.category}</Link><h1 className="mt-4 font-serif text-5xl font-light capitalize">{product.name}</h1><p className="mt-4 text-sm">{formatPrice(product.priceEUR)}</p><p className="mt-8 max-w-md text-sm leading-7 text-[#706F6C]">{product.description}</p><div className="mt-10 border-t border-[#E5E2DA] pt-6"><p className="mb-3 text-[10px] uppercase tracking-[0.16em]">Select size</p><div className="flex gap-2">{product.sizes.map((item) => <button type="button" key={item} onClick={() => setSize(item)} className={`h-10 min-w-12 border px-3 text-[10px] uppercase transition ${size === item ? 'border-[#121212] bg-[#121212] text-white' : 'border-[#D6D2C9] hover:border-[#121212]'}`}>{item}</button>)}</div></div><div className="mt-6 flex gap-3"><div className="flex items-center border border-[#D6D2C9]"><button type="button" aria-label="Decrease quantity" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3"><Minus size={13} /></button><span className="w-7 text-center text-xs">{quantity}</span><button type="button" aria-label="Increase quantity" onClick={() => setQuantity(quantity + 1)} className="p-3"><Plus size={13} /></button></div><Button className="flex-1" onClick={() => { for (let index = 0; index < quantity; index += 1) addToCart(product, size) }}>Add to bag — {formatPrice(product.priceEUR * quantity)}</Button><button type="button" aria-label="Toggle wishlist" onClick={() => toggleWishlist(product.id)} className="flex w-12 items-center justify-center border border-[#D6D2C9]"><Heart size={18} fill={isWishlisted(product.id) ? '#C5A059' : 'none'} color={isWishlisted(product.id) ? '#C5A059' : 'currentColor'} /></button></div><div className="mt-10 flex flex-col gap-4 border-t border-[#E5E2DA] pt-6 text-[10px] uppercase tracking-[0.13em] text-[#706F6C]"><span className="flex items-center gap-3"><Truck size={16} /> Complimentary delivery</span><span className="flex items-center gap-3"><ShieldCheck size={16} /> Secure checkout</span></div></div></div><section className="mx-auto max-w-[1440px] px-5 pb-20 lg:px-12"><h2 className="mb-8 font-serif text-3xl font-light">You may also like</h2><div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{PRODUCTS.filter((item) => item.id !== product.id).slice(0, 4).map((item) => <ProductCard key={item.id} product={item} showQuickAdd={false} />)}</div></section></main>
+}

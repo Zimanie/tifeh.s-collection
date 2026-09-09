@@ -1,10 +1,6 @@
-function Cart() {
-  return (
-    <div>
-      <h1>Shopping Cart</h1>
-      <p>Your cart</p>
-    </div>
-  )
-}
+import { Minus, Plus, Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { useShop } from '../context/ShopContext'
+import { Button } from '../components/Button'
 
-export default Cart
+export default function Cart() { const { cart, cartTotalEUR, formatPrice, updateQuantity, removeFromCart } = useShop(); return <main className="mx-auto max-w-[1200px] px-5 py-14 lg:px-10 lg:py-20"><p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-[#C5A059]">Your selection</p><h1 className="font-serif text-6xl font-light">Shopping bag</h1>{cart.length === 0 ? <div className="py-24 text-center"><p className="font-serif text-3xl">Your bag is currently empty.</p><Link to="/shop" className="mt-6 inline-block text-[10px] uppercase tracking-[0.2em] underline underline-offset-8">Explore the collection</Link></div> : <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_360px]"><div className="border-t border-[#E5E2DA]">{cart.map((item, index) => <div key={`${item.product.id}-${item.size}`} className="flex gap-5 border-b border-[#E5E2DA] py-6"><img src={item.product.image} alt={item.product.name} className="h-32 w-24 object-cover sm:h-40 sm:w-32" /><div className="flex flex-1 flex-col justify-between"><div className="flex justify-between gap-3"><div><Link to={`/product/${item.product.id}`} className="font-serif text-2xl capitalize">{item.product.name}</Link><p className="mt-1 text-[10px] uppercase tracking-[0.13em] text-[#706F6C]">Size: {item.size}</p></div><p className="text-sm">{formatPrice(item.product.priceEUR * item.quantity)}</p></div><div className="flex items-center justify-between"><div className="flex items-center border border-[#D6D2C9]"><button type="button" onClick={() => updateQuantity(index, -1)} className="p-2"><Minus size={12} /></button><span className="w-7 text-center text-xs">{item.quantity}</span><button type="button" onClick={() => updateQuantity(index, 1)} className="p-2"><Plus size={12} /></button></div><button type="button" onClick={() => removeFromCart(index)} className="flex items-center gap-2 text-[9px] uppercase tracking-[0.13em] text-[#706F6C]"><Trash2 size={13} /> Remove</button></div></div></div>)}</div><aside className="h-fit bg-[#F3F1EC] p-7"><h2 className="font-serif text-2xl">Order summary</h2><div className="mt-7 flex justify-between border-b border-[#D6D2C9] pb-5 text-xs"><span>Subtotal</span><span>{formatPrice(cartTotalEUR)}</span></div><div className="flex justify-between py-5 text-xs"><span>Delivery</span><span>Complimentary</span></div><div className="flex justify-between border-t border-[#D6D2C9] pt-5"><span className="font-serif text-xl">Total</span><span className="text-sm">{formatPrice(cartTotalEUR)}</span></div><Link to="/checkout" className="mt-8 block"><Button className="w-full">Proceed to checkout</Button></Link></aside></div>}</main> }
