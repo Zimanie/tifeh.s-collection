@@ -22,7 +22,7 @@ const ShopContext = createContext<ShopContextValue | null>(null)
 export function ShopProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
   const [wishlist, setWishlist] = useState<string[]>([])
-  const [currency, setCurrency] = useState<CurrencyCode>('EUR')
+  const [currency, setCurrency] = useState<CurrencyCode>('NGN')
 
   const addToCart = (product: Product, size: string) => {
     setCart((current) => {

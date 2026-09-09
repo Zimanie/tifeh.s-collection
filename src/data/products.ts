@@ -1,7 +1,7 @@
 import type { Currency, CurrencyCode, Product } from '../types'
 
 export const CURRENCIES: Record<CurrencyCode, Currency> = {
-  EUR: { symbol: '€', rate: 1, name: 'EUR' }, USD: { symbol: '$', rate: 1.09, name: 'USD' }, GBP: { symbol: '£', rate: 0.86, name: 'GBP' }, NGN: { symbol: '₦', rate: 1620, name: 'NGN' },
+  NGN: { symbol: '₦', rate: 1620, name: 'NGN' },
 }
 
 const images = {

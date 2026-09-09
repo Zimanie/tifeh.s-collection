@@ -21,7 +21,7 @@ export default function ProductCard({ product, showQuickAdd = true }: ProductCar
         <button type="button" aria-label="Toggle wishlist" onClick={() => toggleWishlist(product.id)} className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center bg-white/90 text-[#1A1A1A] transition hover:bg-white">
           <Heart size={15} strokeWidth={1.5} fill={isWishlisted(product.id) ? '#C5A059' : 'none'} color={isWishlisted(product.id) ? '#C5A059' : 'currentColor'} />
         </button>
-        {showQuickAdd && <button type="button" onClick={() => addToCart(product, size)} className="absolute bottom-0 left-0 right-0 flex translate-y-full items-center justify-center gap-2 bg-[#121212] py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition-transform duration-300 group-hover:translate-y-0"><Plus size={13} /> Quick add</button>}
+        {showQuickAdd && <button type="button" onClick={() => addToCart(product, size)} className="absolute bottom-0 left-0 right-0 flex translate-y-full items-center justify-center gap-2 bg-[#121212] py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition-transform duration-300 group-hover:translate-y-0"><Plus size={13} /> Add to bag</button>}
       </div>
       <Link to={`/product/${product.id}`} className="mt-4 block">
         <h3 className="font-serif text-lg capitalize text-[#1A1A1A]">{product.name}</h3>

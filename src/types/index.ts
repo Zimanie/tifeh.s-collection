@@ -1,4 +1,4 @@
-export type CurrencyCode = 'EUR' | 'USD' | 'GBP' | 'NGN'
+export type CurrencyCode = 'NGN'
 
 export interface Currency {
   symbol: string
